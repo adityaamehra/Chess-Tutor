@@ -1,0 +1,26 @@
+{
+    "checkmate_patterns": [
+        {
+            "name": "Back Rank Mate",
+            "description": "A situation where the opponent's king is trapped on the back rank and is checkmated by a rook or queen.",
+            "moves": "Rook moves to the back rank, delivering check while the opposing king is unable to escape."
+        },
+        {
+            "name": "Smothered Mate",
+            "description": "A checkmate where the king is surrounded by its own pieces, and a knight delivers the check.",
+            "moves": "Knight moves to deliver check, and the opponent\u2019s king is unable to escape because it\u2019s surrounded by its own pieces."
+        }
+    ],
+    "endgame_scenarios": [
+        {
+            "name": "King and Pawn vs. King",
+            "description": "An endgame where a single pawn tries to promote while the opponent's king tries to stop it.",
+            "moves": "The pawn advances while the king supports it. The opponent's king attempts to block the pawn\u2019s progress."
+        },
+        {
+            "name": "King and Rook vs. King",
+            "description": "A situation where one player has a rook and the other only a king. The goal is to checkmate.",
+            "moves": "The rook controls an entire rank or file, cutting off the opponent's king from escaping while the own king helps in cornering the enemy king."
+        }
+    ]
+}
