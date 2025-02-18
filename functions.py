@@ -3,7 +3,6 @@ import os
 import re
 import pandas as pd
 import numpy as np
-from math import ceil
 from groq import Groq
 from stockfish import Stockfish
 import os
@@ -85,17 +84,28 @@ def find(theory):
     for x in range(0,len(d5["name"])):
         if d5["name"][x].lower()==theory.lower():
             return d5['eco'][x],d5['name'][x],d5['pgn'][x]
-def th_w_exp():
-    theory=input("You : ")
-    eco,name,pgn=find(theory)
-    return ch_comp_th(eco,name,pgn)
+def spell_check(text):
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "system",
+                "content": "You are an expert in English language processing. Your task is to check and correct the spelling of the given text while preserving its original structure. Do not provide any explanations—only return the corrected text exactly as given, with spelling corrections applied. If the input represents a FEN string for a chess game, return it in the format: '<original FEN string>' without any modifications. Do not alter proper names, technical terms, or chess-specific notation.",
+            },
+            {
+                "role": "user",
+                "content": text,
+            }
+        ],
+        model="deepseek-r1-distill-llama-70b",
+    )
+    return clean(chat_completion.choices[0].message.content)
 def get_eval(fen):
     stockfish.set_fen_position(fen)
     x=stockfish.get_evaluation()
     if x["type"]=="mate":
         return f"Mate in {x['value']}"
     else:
-        return f"{round((int(x['value'])**0.5) / 10.0, 1)} pawn advantage for {'white' if x['value'] > 0 else 'black'}"
+        return f"{int(x['value']) / 10.0} pawn advantage for {'white' if x['value'] > 0 else 'black'}"
 def bm_w_exp(fen):
     best_move = get_best_move(fen)
     g = str(stockfish.will_move_be_a_capture(best_move)).split(".")[1]
@@ -119,5 +129,5 @@ def bm_w_exp(fen):
     elif "e1b1" in best_move and "KING" in p1:
         type_of_move = f"Castling with the {p1}"
     else:
-        type_of_move = "Move"
+        type_of_move = f"Move the piece {p1}"
     return ch_comp_bm_w_exp(fen, best_move, type_of_move,evaluation)
