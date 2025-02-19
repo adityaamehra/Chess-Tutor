@@ -36,7 +36,7 @@ def ch_comp_bm_w_exp(fen,best_move,type_of_move,evaluation):
         messages=[
             {
                 "role": "system",
-                "content": "You are a top-tier chess coach with deep strategic and tactical mastery. Your task is to recommend the best move with absolute clarity, using proper chess notation and piece names. Justify the move with precise reasoning—covering positional, tactical, and strategic factors. Highlight threats, weaknesses, and long-term plans. Keep explanations concise, potent, and highly structured to maximize the user's chess understanding.",
+                "content": "You are a top-tier chess coach with deep strategic and tactical mastery. Your task is to recommend the best move with absolute clarity, using proper chess notation and piece names. Justify the move with precise reasoning—covering positional, tactical, and strategic factors. Highlight threats, weaknesses, and long-term plans. Keep explanations concise, potent, and highly structured to maximize the user's chess understanding. Don't use the UCI notation but simple English notation.",
             },
             {
                 "role": "user",
@@ -100,7 +100,7 @@ def get_eval(fen):
     if x["type"]=="mate":
         return f"Mate in {x['value']}"
     else:
-        return f"{int(x['value']) / 10.0} pawn advantage for {'white' if x['value'] > 0 else 'black'}"
+        return f"{int(x['value']) / 100.0} pawn advantage for {'white' if x['value'] > 0 else 'black'}"
 def bm_w_exp(fen):
     best_move = get_best_move(fen)
     g = str(stockfish.will_move_be_a_capture(best_move)).split(".")[1]
@@ -126,3 +126,28 @@ def bm_w_exp(fen):
     else:
         type_of_move = f"Move the piece {p1}"
     return ch_comp_bm_w_exp(fen, best_move, type_of_move,evaluation)
+def for_the_game(best_move,fen):
+    stockfish.set_fen_position(fen)
+    g = str(stockfish.will_move_be_a_capture(best_move)).split(".")[1]
+    if g=="NO_CAPTURE":
+        g=False
+    else:
+        g=True
+    evaluation=get_eval(fen)
+    p1_split = str(stockfish.get_what_is_on_square(best_move[:2])).split(".")
+    p2_split = str(stockfish.get_what_is_on_square(best_move[2:])).split(".")
+    p1 = p1_split[1] if len(p1_split) > 1 else p1_split[0]
+    p2 = p2_split[1] if len(p2_split) > 1 else p2_split[0]
+    if g:
+        type_of_move = f"Capturing the {p2} with {p1}"
+    elif "e8g8" in best_move and "KING" in p1:
+        type_of_move = f"Castling with the {p1}"
+    elif "e8b8" in best_move and "KING" in p1:
+        type_of_move = f"Castling with the {p1}"
+    elif "e1g1" in best_move and "KING" in p1:
+        type_of_move = f"Castling with the {p1}"
+    elif "e1b1" in best_move and "KING" in p1:
+        type_of_move = f"Castling with the {p1}"
+    else:
+        type_of_move = f"Move the piece {p1}"
+    return type_of_move,evaluation
