@@ -3,7 +3,6 @@ import pandas as pd
 import chess
 import chess.svg
 import base64
-import os
 import time
 
 # Load puzzles from CSV files
@@ -29,12 +28,11 @@ def render_board(board, perspective):
 
 def initialize_puzzle():
     """Initialize puzzle board independently."""
-    if "puzzle_fen" not in st.session_state or "puzzle_moves" not in st.session_state or not st.session_state.puzzle_moves:
-        st.session_state.puzzle_fen, st.session_state.puzzle_moves, st.session_state.puzzle_rating = get_random_puzzle(st.session_state.puzzle_data)
-        st.session_state.puzzle_board = chess.Board(st.session_state.puzzle_fen)
-        st.session_state.puzzle_to_move = "Black" if st.session_state.puzzle_board.turn == chess.WHITE else "White"
-        if st.session_state.puzzle_moves:
-            st.session_state.puzzle_board.push_uci(st.session_state.puzzle_moves.pop(0))
+    st.session_state.puzzle_fen, st.session_state.puzzle_moves, st.session_state.puzzle_rating = get_random_puzzle(st.session_state.puzzle_data)
+    st.session_state.puzzle_board = chess.Board(st.session_state.puzzle_fen)
+    st.session_state.puzzle_to_move = "Black" if st.session_state.puzzle_board.turn == chess.WHITE else "White"
+    if st.session_state.puzzle_moves:
+        st.session_state.puzzle_board.push_uci(st.session_state.puzzle_moves.pop(0))
 
 def main():
     # Streamlit UI
@@ -45,16 +43,16 @@ def main():
     if "selected_difficulty" not in st.session_state or st.session_state.selected_difficulty != difficulty:
         st.session_state.selected_difficulty = difficulty
         st.session_state.puzzle_data = load_puzzles(difficulty)
-    
-    initialize_puzzle()
+        initialize_puzzle()  # Ensure a new puzzle is initialized
+        st.rerun()  # Force re-run to update the board
     
     # Display puzzle rating and player to move
     st.subheader(f"Puzzle Rating: {st.session_state.puzzle_rating}")
-    st.subheader(f"{st.session_state.puzzle_to_move} to Move")
     
     # Display puzzle board
     st.markdown(render_board(st.session_state.puzzle_board, chess.BLACK if st.session_state.puzzle_to_move == "White" else chess.WHITE), unsafe_allow_html=True)  # Swapped perspective
     st.write(f"FEN: {st.session_state.puzzle_board.fen()}")
+    st.write(f"{st.session_state.puzzle_to_move} to Move")
     
     # User move input
     uci_move = st.text_input("Enter your move in UCI format (e.g., e2e4):")
