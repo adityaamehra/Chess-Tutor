@@ -1,12 +1,4 @@
 import streamlit as st
-import zipfile
-
-# Specify the path to the zip file
-zip_file_path = "Puzzles data.zip"
-
-# Extract the contents
-with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-    zip_ref.extractall()  # Change to your desired folder
 st.set_page_config(layout="wide")  # Ensures a wide layout
 
 # Sidebar Navigation
