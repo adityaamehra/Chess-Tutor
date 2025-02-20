@@ -2,8 +2,7 @@ import streamlit as st
 from streamlit_chat import message
 from streamlit.components.v1 import html
 import functions
-import play_chess
-import puzzles
+
 
 st.session_state.setdefault("past", [])
 st.session_state.setdefault("generated", [])
