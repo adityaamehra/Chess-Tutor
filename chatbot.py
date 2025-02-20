@@ -2,6 +2,8 @@ import streamlit as st
 from streamlit_chat import message
 from streamlit.components.v1 import html
 import functions
+import play_chess
+import puzzles
 
 st.session_state.setdefault("past", [])
 st.session_state.setdefault("generated", [])
@@ -10,7 +12,6 @@ def handle_chess_query(user_input):
     """Processes the user query and determines the response type."""
     usi=functions.spell_check(user_input).strip()
     response = None
-
     # Check if input is a FEN string (likely requesting a move)
     if usi.lower().startswith("fen "):
         response = functions.bm_w_exp(usi[4:].strip())
@@ -50,18 +51,21 @@ def on_btn_click():
     """Clears chat history."""
     st.session_state.past.clear()
     st.session_state.generated.clear()
+def main():
+    # Streamlit UI
+    st.title("♟️ The Chess Tutor - AI Chatbot")
 
-# Streamlit UI
-st.title("♟️ The Chess Tutor - AI Chatbot")
+    chat_placeholder = st.empty()
 
-chat_placeholder = st.empty()
+    with chat_placeholder.container():
+        for i in range(len(st.session_state["generated"])):
+            message(st.session_state["past"][i], is_user=True, key=f"{i}_user")
+            message(st.session_state["generated"][i], key=f"{i}_bot")
 
-with chat_placeholder.container():
-    for i in range(len(st.session_state["generated"])):
-        message(st.session_state["past"][i], is_user=True, key=f"{i}_user")
-        message(st.session_state["generated"][i], key=f"{i}_bot")
+        st.button("Clear Chat", on_click=on_btn_click)
 
-    st.button("Clear Chat", on_click=on_btn_click)
+    # Input Field with Auto-Clear
+    st.text_input("Ask me about Chess:", on_change=on_input_change, key="user_input")
 
-# Input Field with Auto-Clear
-st.text_input("Ask me about Chess:", on_change=on_input_change, key="user_input")
+if __name__ == "__main__":
+    main()
