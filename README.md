@@ -1,58 +1,61 @@
-# Ctrl_Shift_Intelligence
+# Chess Tutor AI
 
-## Overview
-This project leverages **Groq** and **DeepSeek-R1-LLaMA-70B** to create an advanced **LLM-powered Chess Coach**. The model integrates **Stockfish**, one of the strongest chess engines, to analyze board positions and recommend the best moves while providing insightful explanations.
+### 🏆 A Multi-Page Chess Tutor AI Powered by DeepSeek-R1-LLaMA-70B, Stockfish, and Streamlit
 
-## Features
-- **LLM Integration**: Uses **DeepSeek-R1-LLaMA-70B** via **Groq** to generate human-like explanations for chess moves.
-- **Stockfish Analysis**: Evaluates board positions and suggests the optimal move.
-- **Move Justification**: Provides detailed reasoning behind Stockfish's suggested move.
-- **User Interaction**: Allows users to input their board position and receive AI-driven coaching.
-- **Real-time Feedback**: Ensures prompt and accurate move recommendations.
+---
 
-## Tech Stack
-- **LLM Backend**: [Groq](https://groq.com/) with **DeepSeek-R1-LLaMA-70B**.
-- **Chess Engine**: [Stockfish](https://stockfishchess.org/).
-- **Frameworks & Tools**:
-  - Python
-  - Flask / FastAPI (for API development)
-  - Chess libraries (e.g., `python-chess`)
+## 📌 Overview
+Chess Tutor AI is an interactive and intelligent chess tutor designed to help users improve their chess skills. It leverages **DeepSeek-R1-LLaMA-70B** for advanced reasoning, the **Groq API** for processing, and the **Stockfish API** for best move evaluation. The project is built using **Streamlit**, providing a seamless and engaging web interface.
 
-## Installation
-1. **Clone the Repository:**
-   ```sh
-   git clone https://github.com/RudranilJadhav/Ctrl_Shift_Intelligence.git
-   cd Ctrl_Shift_Intelligence
+## 🚀 Features
+### 1️⃣ Chess Bot
+- 📌 **Best Move Analysis**: Provides the best move along with an in-depth explanation when given an **FEN** string.
+- 📌 **Opening Theory**: Offers insights into chess openings, including their **pros, cons, and major variations**.
+- 📌 **Strategic Insights**: Explains why a move is optimal and suggests alternative approaches.
+
+### 2️⃣ Chess Puzzles
+- 📌 **Difficulty Levels**: Puzzles categorized into **Easy, Medium, and Hard**, selected at random.
+- 📌 **Interactive UI**: Buttons for **Get Hint**, **Submit Move**, and **Next Puzzle**.
+- 📌 **Board Visualization**: Implemented using **SVG images** for clarity and better understanding.
+
+### 3️⃣ Human vs. AI Mode
+- 📌 **Adjustable AI Strength**: Modify **Stockfish depth** to customize difficulty.
+- 📌 **AI Move Automation**: The AI automatically responds to each human move.
+- 📌 **Move Assessment**: Detailed breakdown in a **three-column layout**:
+  - **AI Move Explanation** 🧠
+  - **User Move Evaluation** 📊
+  - **Best Possible Continuation** ♟️
+
+## 🛠️ Technologies Used
+- **DeepSeek-R1-LLaMA-70B** - For chess reasoning and explanations
+- **Groq API** - For AI model inference
+- **Stockfish API** - For move evaluation and analysis
+- **Streamlit** - For building the interactive web UI
+- **SVG Rendering** - For board visualization
+
+## 🏁 Installation & Setup
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/adityaamehra/Chess-Tutor.git
+   cd Chess-Tutor
    ```
-2. **Create a Virtual Environment (Optional but Recommended):**
-   ```sh
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-3. **Install Dependencies:**
-   ```sh
+
+2. **Install Dependencies**
+   ```bash
    pip install -r requirements.txt
    ```
-4. **Download and Install Stockfish:**
-   - Visit [Stockfish Download Page](https://stockfishchess.org/download/) and install the appropriate version.
-   - Ensure Stockfish is accessible from the command line.
-5. **Set Up API Keys (if required for Groq access).**
 
-## Usage
-to be filled
+3. **Run the Application**
+   ```bash
+   streamlit run main.py
+   ```
 
-## Roadmap
-- **Enhancing explanations with LLM fine-tuning on chess commentary data.**
-- **Adding multi-variant move analysis.**
-- **Integrating a web-based UI for better usability.**
+## 🤝 Contributions
+Contributions are welcome! Feel free to open issues and submit pull requests.
 
-## Contributing
-Contributions are welcome! Feel free to open an issue or submit a pull request.
-
-## License
+## 📜 License
 This project is licensed under the MIT License.
 
-## Acknowledgments
-- **Stockfish Team** for their exceptional chess engine.
-- **Groq & DeepSeek** for enabling high-performance LLM inference.
-- The **open-source chess community** for invaluable libraries and tools.
+---
+
+🎯 **Level up your chess skills with AI-powered insights!** 🏆
