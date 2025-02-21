@@ -259,7 +259,7 @@ def main():
     # "Skill level" from 1..20 (we'll treat it as "depth" 1..16 for the remote API)
     skill_level = st.slider("Stockfish Skill Level (approx. depth)", 1, 16, st.session_state.skill_level)
     st.session_state.skill_level = skill_level
-
+    depth=skill_level
     col1, col2 = st.columns(2)
     with col1:
         st.markdown(render_board(board), unsafe_allow_html=True)
