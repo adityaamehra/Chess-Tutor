@@ -7,7 +7,8 @@ import chess.svg
 import base64
 import time
 
-# Load puzzles from CSV files
+# Cache the CSV files to avoid redundant requests
+@st.cache_data
 def load_puzzles(difficulty):
     file_map = {
         "Easy": "https://media.githubusercontent.com/media/adityaamehra/Chess-tutor/refs/heads/main/easy.csv",
