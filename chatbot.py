@@ -9,14 +9,14 @@ st.session_state.setdefault("generated", [])
 
 def handle_chess_query(user_input):
     """Processes the user query and determines the response type."""
-    usi=functions.spell_check(user_input).strip()
+    usi=(user_input).strip()
     response = None
     # Check if input is a FEN string (likely requesting a move)
-    if usi.lower().startswith("fen "):
+    if usi.lower()[0]=='f':
         response = functions.bm_w_exp(usi[4:].strip())
 
     # Check if the user is asking about a chess opening
-    elif usi.lower().startswith("opening "):
+    elif usi.lower()[0]=='o':
         opening_name = usi[8:].strip()
         try:
             eco, name, pgn = functions.find(opening_name)

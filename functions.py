@@ -84,7 +84,7 @@ def spell_check(text):
         messages=[
             {
                 "role": "system",
-                "content": "You are an expert in English language processing. Your task is to check and correct the spelling of the given text while preserving its original structure. Do not provide any explanations—only return the corrected text exactly as given, with spelling corrections applied. If the input represents a FEN string for a chess game, return it in the format: 'FEN <original FEN string>' without any modifications. Do not alter proper names, technical terms, or chess-specific notation. If the input is a chess opening then start with 'opening <corrected spelling>'.",
+                "content": "Check and correct spelling errors in the given text while keeping its original structure intact. Do not modify proper names, technical terms, or specialized jargon. If the input represents a chess opening, return it in the format 'opening <corrected opening spelling>' while ensuring that only spelling errors are corrected and chess terminology remains unchanged. Do not rephrase, restructure, or explain corrections. Return only the corrected text.",
             },
             {
                 "role": "user",
