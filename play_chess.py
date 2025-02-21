@@ -260,7 +260,7 @@ def main():
     skill_level = st.slider("Stockfish Skill Level (approx. depth)", 1, 16, st.session_state.skill_level)
     st.session_state.skill_level = skill_level
 
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns(2)
     with col1:
         st.markdown(render_board(board), unsafe_allow_html=True)
         user_move = st.text_input(
@@ -311,14 +311,10 @@ def main():
             st.error("Invalid move format. Please use format like 'e2e4'.")
 
     st.session_state.move_executed = False
-
-    col3, col4 = st.columns(2)
-    with col3:
+    with col2:
         st.subheader("AI Move Explanation")
         if st.session_state.ai_explanation:
             st.text(st.session_state.ai_explanation)
-
-    with col4:
         st.subheader("User Move Assessment")
         if st.session_state.user_assessment:
             st.text(st.session_state.user_assessment)
