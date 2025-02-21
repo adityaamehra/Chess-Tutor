@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import chess
+import requests
+import io
 import chess.svg
 import base64
 import time
@@ -8,14 +10,20 @@ import time
 # Load puzzles from CSV files
 def load_puzzles(difficulty):
     file_map = {
-        "Easy": "easy.csv",
-        "Medium": "medium.csv",
-        "Hard": "hard.csv"
+        "Easy": "https://media.githubusercontent.com/media/adityaamehra/Chess-tutor/refs/heads/main/easy.csv",
+        "Medium": "https://media.githubusercontent.com/media/adityaamehra/Chess-tutor/refs/heads/main/medium.csv",
+        "Hard": "https://media.githubusercontent.com/media/adityaamehra/Chess-tutor/refs/heads/main/hard.csv"
     }
-    return pd.read_csv(file_map[difficulty])
+    response = requests.get(file_map[difficulty])
+    if response.status_code == 200:
+        return pd.read_csv(io.StringIO(response.text))
+    else:
+        return pd.DataFrame()
 
 # Select a random puzzle
 def get_random_puzzle(df):
+    if df.empty:
+        return None, [], None
     puzzle = df.sample().iloc[0]  # Select a random puzzle
     moves_list = puzzle["Moves"].split()
     return puzzle["FEN"], moves_list, puzzle["Rating"]
