@@ -170,7 +170,8 @@ def user_move_analysis(board, move):
                         "praise if the move was good and scold if the move was rubbish. "
                         "Do not use markdown, and the commentary should not exceed 3 lines. "
                         "DO NOT USE UCI NOTATION but use English. Positive evaluation favors White, "
-                        "and negative favors Black."
+                        "and negative favors Black. "
+                        "Do not keep one appreciating the user but be very brutal and mostly be critical to the user, be extremely harsh to the user."
                     ),
                 },
                 {"role": "user", "content": prompt},
@@ -248,7 +249,7 @@ def main():
     previous_board = board.copy()
 
     # "Skill level" from 1..20 (we'll treat it as "depth" 1..16 for the remote API)
-    skill_level = st.slider("Stockfish Skill Level (approx. depth)", 1, 20, st.session_state.skill_level)
+    skill_level = st.slider("Stockfish Skill Level (approx. depth)", 1, 16, st.session_state.skill_level)
     st.session_state.skill_level = skill_level
 
     col1, col2 = st.columns([2, 1])
