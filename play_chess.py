@@ -182,7 +182,7 @@ def user_move_analysis(board, move,depth):
     except Exception as e:
         return f"Move analysis unavailable: {str(e)}"
 
-def ai_move_analysis(board, move):
+def ai_move_analysis(board, move,depth):
     """
     Analyze a chess move using Groq LLM, from the AI's perspective.
     """
@@ -295,7 +295,7 @@ def main():
                     ai_move_obj = chess.Move.from_uci(ai_move_uci)
                     if ai_move_obj in board.legal_moves:
                         board.push(ai_move_obj)
-                        ai_analysis = ai_move_analysis(previous_board, ai_move_obj)
+                        ai_analysis = ai_move_analysis(previous_board, ai_move_obj, depth)
                         st.session_state.ai_explanation = ai_analysis
                         previous_board = board.copy()
                     else:
