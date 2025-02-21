@@ -21,11 +21,11 @@ def initialize():
     # Initialize your Groq client
     client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
     # Load your theory data
-    d1 = pd.read_csv('theory/a.tsv', sep='\t', header=0)
-    d2 = pd.read_csv('theory/b.tsv', sep='\t', header=0)
-    d3 = pd.read_csv('theory/c.tsv', sep='\t', header=0)
-    d4 = pd.read_csv('theory/d.tsv', sep='\t', header=0)
-    d5 = pd.read_csv('theory/e.tsv', sep='\t', header=0)
+    d1 = pd.read_csv('Theory/a.tsv', sep='\t', header=0)
+    d2 = pd.read_csv('Theory/b.tsv', sep='\t', header=0)
+    d3 = pd.read_csv('Theory/c.tsv', sep='\t', header=0)
+    d4 = pd.read_csv('Theory/d.tsv', sep='\t', header=0)
+    d5 = pd.read_csv('Theory/e.tsv', sep='\t', header=0)
 
 initialize()
 
