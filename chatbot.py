@@ -54,6 +54,8 @@ def main():
     # Streamlit UI
     if "generated" not in st.session_state:
         st.session_state["generated"] = []
+    if "past" not in st.session_state:
+        st.session_state["past"] = []
     st.title("♟️ The Chess Tutor - AI Chatbot")
 
     chat_placeholder = st.empty()
