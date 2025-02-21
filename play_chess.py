@@ -171,7 +171,7 @@ def user_move_analysis(board, move):
                         "Do not use markdown, and the commentary should not exceed 3 lines. "
                         "DO NOT USE UCI NOTATION but use English. Positive evaluation favors White, "
                         "and negative favors Black. "
-                        "Do not keep one appreciating the user but be very brutal and mostly be critical to the user, be extremely harsh to the user."
+                        "Do not keep one appreciating the user but be very brutal and mostly be critical to the user, be lightly harsh to the user."
                     ),
                 },
                 {"role": "user", "content": prompt},
