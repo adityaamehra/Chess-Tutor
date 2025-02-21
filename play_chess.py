@@ -11,7 +11,7 @@ from groq import Groq
 ###############################################################################
 # 1) Remote Stockfish.online utility functions
 ###############################################################################
-def get_info(fen, depth=15):
+def get_info(fen, depth):
     """
     Queries the stockfish.online API with the given FEN and engine depth (<=16).
     Returns a dictionary containing bestmove, evaluation, mate, and continuation.
@@ -48,18 +48,18 @@ def get_info(fen, depth=15):
         "continuation": continuation
     }
 
-def get_best_move(fen, depth=15):
+def get_best_move(fen, depth):
     """Returns the best move in UCI format for the given FEN using the remote API."""
-    info = get_info(fen, depth=depth)
+    info = get_info(fen, depth)
     return info["bestmove"]
 
-def get_eval_string(fen, depth=15):
+def get_eval_string(fen, depth):
     """
     Returns a human-readable evaluation string:
       - "Mate in X moves for White/Black" if forced mate
       - Otherwise, e.g. "1.36 pawn advantage for white"
     """
-    info = get_info(fen, depth=depth)
+    info = get_info(fen, depth)
     mate_val = info["mate"]
     eval_val = info["evaluation"]
 
@@ -74,7 +74,7 @@ def get_eval_string(fen, depth=15):
 ###############################################################################
 # 2) Move characterization (to replicate your 'for_the_game' logic)
 ###############################################################################
-def type_of_move_and_eval(move_uci, fen, depth=15):
+def type_of_move_and_eval(move_uci, fen, depth):
     """
     Determines if the move is a capture or a castle, which piece moves, etc.
     Also gets a user-friendly evaluation string via the remote API.
@@ -117,7 +117,7 @@ def type_of_move_and_eval(move_uci, fen, depth=15):
     else:
         type_of_move = f"Move the piece {p1}"
 
-    evaluation_string = get_eval_string(fen, depth=depth)
+    evaluation_string = get_eval_string(fen, depth)
     return type_of_move, evaluation_string
 
 ###############################################################################
@@ -150,7 +150,7 @@ def user_move_analysis(board, move):
     move_uci = move.uci() if isinstance(move, chess.Move) else move
 
     # 1) Derive the type_of_move + evaluation from the remote API
-    type_of_move, evaluation = type_of_move_and_eval(move_uci, fen, depth=15)
+    type_of_move, evaluation = type_of_move_and_eval(move_uci, fen, depth)
 
     # 2) Build your prompt
     prompt = (
@@ -192,7 +192,7 @@ def ai_move_analysis(board, move):
     fen = board.fen()
     move_uci = move.uci() if isinstance(move, chess.Move) else move
 
-    type_of_move, evaluation = type_of_move_and_eval(move_uci, fen, depth=15)
+    type_of_move, evaluation = type_of_move_and_eval(move_uci, fen, depth)
 
     prompt = (
         f"Please tell me the commentary of the move which is {move_uci} with an evaluation "
@@ -284,7 +284,7 @@ def main():
                 fen = board.fen()
                 depth = min(skill_level, 16)
                 try:
-                    info = get_info(fen, depth=depth)
+                    info = get_info(fen, depth)
                     ai_move_uci = info["bestmove"]
                 except Exception as api_error:
                     st.error(f"Could not retrieve AI move: {str(api_error)}")
