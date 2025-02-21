@@ -63,7 +63,7 @@ def main():
     st.write(f"{st.session_state.puzzle_to_move} to Move")
     
     # User move input
-    uci_move = st.text_input("Enter your move in UCI format (e.g., e2e4):")
+    uci_move = (st.text_input("Enter your move in UCI format (e.g., e2e4):")).strip()
     
     col1, col2, col3 = st.columns(3)
     with col1:
