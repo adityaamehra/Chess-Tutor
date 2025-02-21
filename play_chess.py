@@ -241,6 +241,14 @@ def render_board(board):
     board_svg = chess.svg.board(board=board)
     b64 = base64.b64encode(board_svg.encode('utf-8')).decode("utf-8")
     return f'<img src="data:image/svg+xml;base64,{b64}" width="400"/>'
+def reset_board():
+    """Resets the game board and clears session state."""
+    st.session_state.board = chess.Board()
+    st.session_state.move_history = []
+    st.session_state.ai_explanation = None
+    st.session_state.user_assessment = None
+    st.session_state.move_executed = False
+    st.rerun()
 
 def main():
     st.title("Play Chess vs Remote Stockfish (API)")
@@ -316,12 +324,22 @@ def main():
             st.text(st.session_state.user_assessment)
 
     # Check final states
+# Check final states
     if board.is_checkmate():
         st.success("Checkmate!")
+        if st.button("Start New Game"):
+            reset_board()
     elif board.is_stalemate():
         st.info("Stalemate!")
+        if st.button("Start New Game"):
+            reset_board()
+    elif board.is_repetition(3):  # Check if the position has repeated three times
+        st.warning("Threefold repetition! The game is a draw.")
+        if st.button("Start New Game"):
+            reset_board()
     elif board.is_check():
         st.warning("Check!")
+
 
 if __name__ == "__main__":
     main()
