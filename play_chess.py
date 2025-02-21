@@ -139,7 +139,7 @@ except Exception as e:
     client = None
     st.error(f"Failed to initialize Groq: {str(e)}")
 
-def user_move_analysis(board, move):
+def user_move_analysis(board, move,depth):
     """
     Analyze a chess move using Groq LLM, from the user's perspective.
     """
@@ -275,7 +275,7 @@ def main():
             if move in board.legal_moves:
                 # 1) User plays move
                 board.push(move)
-                user_analysis = user_move_analysis(previous_board, move)
+                user_analysis = user_move_analysis(previous_board, move, depth)
                 st.session_state.user_assessment = user_analysis
                 previous_board = board.copy()
 
