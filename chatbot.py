@@ -52,6 +52,8 @@ def on_btn_click():
     st.session_state.generated.clear()
 def main():
     # Streamlit UI
+    if "generated" not in st.session_state:
+        st.session_state["generated"] = []
     st.title("♟️ The Chess Tutor - AI Chatbot")
 
     chat_placeholder = st.empty()
