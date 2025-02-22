@@ -13,7 +13,6 @@ def handle_chess_query(user_input):
     response = None
     # Check if input is a FEN string (likely requesting a move)
     re=functions.normal_llm(usi)
-    print(re)
     if re=="YES":
         if usi.lower()[0]=='f':
             response = functions.bm_w_exp(usi[4:].strip())
@@ -26,7 +25,6 @@ def handle_chess_query(user_input):
             except TypeError:
                 response = "Sorry, I couldn't find that opening in my database."
         else:
-            print("Here")
             response=functions.normal_llm_ans(usi)
 
     # Default: General chess response
