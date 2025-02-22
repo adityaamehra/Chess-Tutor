@@ -28,12 +28,65 @@ def initialize():
     d5 = pd.read_csv('Theory/e.tsv', sep='\t', header=0)
 
 initialize()
-
 def clean(response):
     # Remove any internal <think> ... </think> blocks
     response = re.sub(r'<think>.*?</think>', '', response, flags=re.DOTALL)
     return response
-
+def normal_llm(prompt):
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are an expert in categorizing things into two categories either the thing is chess related or not. If it is related to chess return `YES` otherwise return `NO`. "
+                    "You have to be very precise and clear in your answer.ONLY TELL ME YES AND NO AND NOTHING ELSE , NO EXPLANATION IS NEEDED.NO MARKDOWN ."
+                    "THE SCOPE OF ERROR IS ZERO , YOU CANNOT MAKE MISTAKES SO BE EXTREMELY CAREFUL AND DOUBLE CHECK THE RESPONSE YOU GIVE."
+                ),
+            },
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="deepseek-r1-distill-llama-70b",
+    )
+    return (clean(chat_completion.choices[0].message.content)).strip()
+def cate(prompt):
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are an expert in categorizing things into two categories either the thing is chess FEN related to FEN value given or it is none. If it is related to FEN return `YES` else return `NO`. "
+                    "You have to be very precise and clear in your answer.ONLY TELL ME YES AND NO AND NOTHING ELSE , NO EXPLANATION IS NEEDED.NO MARKDOWN ."
+                    "THE SCOPE OF ERROR IS ZERO , YOU CANNOT MAKE MISTAKES SO BE EXTREMELY CAREFUL AND DOUBLE CHECK THE RESPONSE YOU GIVE."
+                ),
+            },
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="deepseek-r1-distill-llama-70b",
+    )
+    return (clean(chat_completion.choices[0].message.content)).strip()
+def normal_llm_ans(prompt):
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "The input you will be given will be natural language you have to understand what the user is asking and respond accordingly.USE MARKDOWNS AND IT EXPLAIN IT IN DETAIL TO THE ATMOST CORE . YOU ARE GONNA ACT AS A TEACHER AND THINK SUCH THAT THE USER DOES NOT KNOW ANYTHING."
+                ),
+            },
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        model="deepseek-r1-distill-llama-70b",
+    )
+    return (clean(chat_completion.choices[0].message.content)).strip()
 ###############################################################################
 # 1) Function to call the remote stockfish.online API
 ###############################################################################
